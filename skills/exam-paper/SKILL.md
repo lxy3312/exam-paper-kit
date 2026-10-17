@@ -1,12 +1,18 @@
 ---
 name: exam-paper
 description: 出可直接打印的初中数学试卷（A4 两栏、黑白卡片皮肤、试卷和答案各一个 PDF）的完整流程——定范围和结构、按题位从公开的期中/一模/二模/中考原卷取题、写出卷脚本、按题干条件画图、程序验算答案、模拟排版去空白、交付前检查。用户说「出一份……卷」「期中/期末/单元/超难/压轴卷」「再来一套」「把答案分开」时用。默认按北京初三数学的卷面格式，换地区、换学科照着改结构表就行。
+license: MIT
+compatibility: 需要 Python 3.10+（reportlab、pymupdf、pillow）和中文 TrueType 字体（Windows 自带的宋体、黑体即可）；Claude Code、Codex、WorkBuddy 等支持 SKILL.md 的工具都能用
+metadata:
+  version: "1.1"
+  author: lxy3312
+  repository: https://github.com/lxy3312/exam-paper-kit
 ---
 
 # 出卷子
 
 本 skill 自带排版引擎（`kit/`，基于 ReportLab + PyMuPDF）、脚本（`scripts/`）和模板（`templates/`）。
-下文的 `<skill>` 指 SKILL.md 所在目录。如果项目里有给这个学生的笔记（学情、错题档案、以前的卷子），**先读笔记**再动手。
+下文的 `<skill>` 指 SKILL.md 所在目录（装在哪个工具的 skills 目录里都一样）。如果项目里有给这个学生的笔记（学情、错题档案、以前的卷子），**先读笔记**再动手。
 
 ## 一、开工前定下来（能从笔记和原卷推出来的就别问）
 
@@ -27,7 +33,7 @@ description: 出可直接打印的初中数学试卷（A4 两栏、黑白卡片�
 
 ## 三、写脚本（从模板起步，别从头写）
 
-把 `<skill>/templates/` 里三个模板复制到出卷目录，改名、改掉 `xxx` 模块名，并把模板顶上的 kit 路径改成 `<skill>/kit` 的实际位置：
+把 `<skill>/templates/` 里三个模板复制到出卷目录，改名、改掉 `xxx` 模块名。模板会自己找 `<skill>/kit`（环境变量 `EXAM_PAPER_KIT` → 当前目录往上的各家 skills 目录 → 用户目录），找不到就把模板里的 `KIT` 改成实际路径：
 
 | 模板 | 复制成 | 作用 |
 |---|---|---|

@@ -10,9 +10,9 @@
 import os
 import sys
 
-# 排版引擎在本 skill 的 kit/ 目录：复制模板时把下面的路径改成它的实际位置（或者设环境变量 EXAM_PAPER_KIT）
+# 示例直接用仓库里的 kit/（设了环境变量 EXAM_PAPER_KIT 就用它）
 sys.path.insert(0, os.environ.get("EXAM_PAPER_KIT")
-                or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".claude", "skills", "exam-paper", "kit"))
+                or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "skills", "exam-paper", "kit"))
 
 from math import sqrt  # noqa: E402
 

@@ -10,8 +10,34 @@
 import os
 import sys
 
-# 排版引擎在本 skill 的 kit/ 目录：复制模板时把下面的路径改成它的实际位置（或者设环境变量 EXAM_PAPER_KIT）
-sys.path.insert(0, os.environ.get("EXAM_PAPER_KIT") or os.path.expanduser("~/.claude/skills/exam-paper/kit"))
+
+def _kit():
+    """找排版引擎（本 skill 的 kit/ 目录）：先看环境变量 EXAM_PAPER_KIT，再从当前目录往上、最后在用户目录里
+    找各家工具的 skills 目录（Claude Code、Codex、WorkBuddy、CodeBuddy、TRAE、Qoder）。
+    都找不到就把下面 KIT 改成 kit/ 的实际位置。"""
+    if os.environ.get("EXAM_PAPER_KIT"):
+        return os.environ["EXAM_PAPER_KIT"]
+    dirs = (".claude/skills", ".agents/skills", ".codex/skills", ".workbuddy/skills",
+            ".codebuddy/skills", ".trae/skills", ".qoderwork/skills", "skills")
+    here = os.path.abspath(os.getcwd())
+    roots = []
+    while True:                                   # 项目级：当前目录一路往上
+        roots.append(here)
+        up = os.path.dirname(here)
+        if up == here:
+            break
+        here = up
+    roots.append(os.path.expanduser("~"))         # 用户级
+    for root in roots:
+        for d in dirs:
+            p = os.path.normpath(os.path.join(root, d, "exam-paper", "kit"))
+            if os.path.isdir(p):
+                return p
+    raise SystemExit("找不到 exam-paper 的 kit/ 目录：设环境变量 EXAM_PAPER_KIT，或者改这个文件里的 KIT。")
+
+
+KIT = _kit()
+sys.path.insert(0, KIT)
 
 from math import sqrt  # noqa: E402
 
