@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+outputs/
+examples/png/
+*.pdf
+crop.png
+_sim*.pdf
